@@ -1,4 +1,4 @@
-name: Flyway Migrate
+name: CI/CD
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  flyway_migrate:
+  cicd:
     runs-on: ubuntu-latest
 
     steps:
@@ -33,3 +33,9 @@ jobs:
           flyway info
           flyway validate
           flyway migrate
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Build with Gradle
+        run: ./gradlew build
