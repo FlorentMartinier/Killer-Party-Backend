@@ -30,7 +30,9 @@ out/
 /nbbuild/
 /dist/
 /nbdist/
+/node_modules/
 /.nb-gradle/
+/src/main/resources/static
 
 ### VS Code ###
 .vscode/
