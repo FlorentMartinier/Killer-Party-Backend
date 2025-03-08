@@ -14,6 +14,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: |
+          cd ./frontend/killer-party-front
+          npm install
+
+      - name: Build Angular app
+        run: |
+          cd ./frontend/killer-party-front
+          npm run build
+
       - name: Set up JDK
         uses: actions/setup-java@v2
         with:
