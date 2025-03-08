@@ -52,6 +52,19 @@ flyway {
 	cleanDisabled = false
 }
 
+val copyFrontend by tasks.registering(Sync::class) {
+	from(file("frontend/killer-party-front/dist/killer-party-front"))
+	into(file("src/main/resources/static"))
+}
+
+tasks.build {
+	dependsOn(copyFrontend)
+}
+
+tasks.named("processResources") {
+	dependsOn(copyFrontend) // Assure que 'copyFrontend' est exécuté avant 'processResources'
+}
+
 tasks.withType<Test> {
 	useJUnitPlatform()
 }

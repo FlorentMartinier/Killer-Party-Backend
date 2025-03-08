@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "killer-party-front": "file:frontend/killer-party-front"
+  }
+}
