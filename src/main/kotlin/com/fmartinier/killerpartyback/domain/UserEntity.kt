@@ -1,5 +1,6 @@
 package com.fmartinier.killerpartyback.domain
 
+import com.fmartinier.killerpartyback.domain.enums.UserState
 import jakarta.persistence.*
 
 @Entity
@@ -10,6 +11,8 @@ data class UserEntity(
     @GeneratedValue(strategy = GenerationType.UUID)
     val id: String? = null,
     val sessionId: String = "",
+    val name: String = "",
     val phoneNumber: String = "",
     val associatedIpAddress: String = "",
+    val state: UserState = UserState.WAITING,
 )

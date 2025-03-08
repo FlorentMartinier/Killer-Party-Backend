@@ -1,0 +1,6 @@
+<ul class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <h1 class="mb-4 font-extrabold lg:text-xl dark:text-white">Bienvenue dans la session : {{sessionId}}</h1>
+    @for (user of session?.users; track user) {
+        <app-user [user]="user"></app-user>
+    }
+</ul>

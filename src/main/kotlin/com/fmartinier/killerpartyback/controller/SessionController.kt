@@ -1,13 +1,12 @@
 package com.fmartinier.killerpartyback.controller
 
+import com.fmartinier.killerpartyback.domain.dto.SessionDto
 import com.fmartinier.killerpartyback.service.SessionService
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping(value = ["/session"])
+@CrossOrigin(origins = ["*"]) // FIXME : cibler les origines possibles une fois le front en production
 class SessionController(
     val sessionService: SessionService
 ) {
@@ -17,10 +16,17 @@ class SessionController(
         return sessionService.create()
     }
 
-    @PostMapping(value = ["close"])
+    @PostMapping(value = ["close/{sessionId}"])
     fun close(
-        @RequestParam("sessionId") sessionId: String,
+        @PathVariable sessionId: String,
     ) {
         sessionService.close(sessionId)
+    }
+
+    @GetMapping(value = ["/{sessionId}"])
+    fun findBySession(
+        @PathVariable sessionId: String,
+    ): SessionDto {
+        return sessionService.findById(sessionId)
     }
 }

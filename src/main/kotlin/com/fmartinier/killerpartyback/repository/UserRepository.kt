@@ -6,4 +6,9 @@ import org.springframework.stereotype.Repository
 
 
 @Repository
-interface UserRepository : JpaRepository<UserEntity, String>
+interface UserRepository : JpaRepository<UserEntity, String> {
+
+    fun findAllBySessionId(sessionId: String): List<UserEntity>
+
+    fun findAllBySessionIdAndAssociatedIpAddress(sessionId: String, ipAdress: String): List<UserEntity>
+}
