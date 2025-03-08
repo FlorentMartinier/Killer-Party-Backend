@@ -1,6 +1,8 @@
 server:
   port: "${PORT:5000}"
 spring:
+  flyway:
+    locations: "src/main/resources/db/migration/"
   application:
     name: killerpartyback
   datasource:

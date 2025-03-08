@@ -20,6 +20,14 @@ jobs:
           java-version: '17'
           distribution: temurin
 
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Build with Gradle
+        run: |
+          ./gradlew clean
+          ./gradlew build
+
       - name: Install Flyway
         run: wget -qO- https://download.red-gate.com/maven/release/com/redgate/flyway/flyway-commandline/11.3.4/flyway-commandline-11.3.4-linux-x64.tar.gz | tar -xvz && sudo ln -s `pwd`/flyway-11.3.4/flyway /usr/local/bin
 
@@ -30,12 +38,5 @@ jobs:
           FLYWAY_PASSWORD: ${{ secrets.DB_PASSWORD }}
           FLYWAY_DB_NAME: ${{ secrets.DB_NAME }}
         run: |
-          flyway info
-          flyway validate
-          flyway migrate
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
-
-      - name: Build with Gradle
-        run: ./gradlew build
+          flyway info -locations=filesystem:./src/main/resources/db/migration/
+          flyway migrate -locations=filesystem:./src/main/resources/db/migration/

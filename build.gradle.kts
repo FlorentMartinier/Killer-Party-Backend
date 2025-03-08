@@ -1,9 +1,12 @@
+import com.github.gradle.node.npm.task.NpmTask
+
 plugins {
 	kotlin("jvm") version "1.9.25"
 	kotlin("plugin.spring") version "1.9.25"
 	id("org.springframework.boot") version "3.4.3"
 	id("io.spring.dependency-management") version "1.1.7"
 	id("org.flywaydb.flyway") version "11.3.4"
+	id("com.github.node-gradle.node") version "7.1.0"
 	java
 }
 
@@ -50,6 +53,33 @@ flyway {
 	password = "postgres"
 	schemas = arrayOf("public")
 	cleanDisabled = false
+}
+
+node {
+	nodeProjectDir = file("frontend/killer-party-front")
+}
+
+tasks.npmInstall {
+	dependsOn(tasks.npmSetup)
+}
+
+val copyFrontend by tasks.registering(Sync::class) {
+	dependsOn(buildAngularApp)
+	from(file("frontend/killer-party-front/dist/killer-party-front/browser"))
+	into(file("src/main/resources/static"))
+}
+
+val buildAngularApp by tasks.registering(NpmTask::class) {
+	dependsOn(tasks.npmInstall)
+	args = listOf("run", "build")
+}
+
+tasks.build {
+	dependsOn(copyFrontend)
+}
+
+tasks.processResources {
+	dependsOn(copyFrontend) // Assure que 'copyFrontend' est exécuté avant 'processResources'
 }
 
 tasks.withType<Test> {
