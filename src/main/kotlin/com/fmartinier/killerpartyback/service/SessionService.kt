@@ -13,11 +13,15 @@ class SessionService(
     val userRepository: UserRepository,
 ) {
 
-    fun create(): String {
+    fun create(): SessionDto {
         val savedEntity = sessionRepository.save(
             SessionEntity(userCanJoin = true)
         )
-        return savedEntity.id!!
+        return SessionDto(
+            id = savedEntity.id!!,
+            userCanJoin = savedEntity.userCanJoin,
+            users = emptyList(),
+        )
     }
 
     fun close(sessionId: String) {

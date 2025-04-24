@@ -12,7 +12,7 @@ class SessionController(
 ) {
 
     @PostMapping(value = ["create"])
-    fun create(): String {
+    fun create(): SessionDto {
         return sessionService.create()
     }
 
